@@ -1,0 +1,23 @@
+version: '3'
+services:
+  go:
+    build: ./app_go
+    container_name: "go_app2"
+    tty: true
+    volumes:
+      - ./app_go:/go/src/app
+    depends_on:
+      - mysql
+    ports:
+      - '8001:8080'
+  mysql:
+    image: mysql:8.0.18
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+        MYSQL_USER: root
+        MYSQL_ROOT_PASSWORD: password
+        MYSQL_DATABASE: sample
+    volumes:
+        - ./app_go/DB/var:/var/lib/mysql
